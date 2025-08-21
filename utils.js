@@ -104,7 +104,7 @@ function obtenerTurnos(){
 // Llenar select
 function llenarSelect(selectElement, opciones){
 
-    selectElement.innerHTNL = '';
+    selectElement.innerHTML = '';
 
     opciones.forEach(opcion => {
         const option = document.createElement('option');
@@ -128,31 +128,45 @@ function obtenerIngTurno(){
 let ctxFirma, dibujando = false;
 
 function inicializarFirma(){
-    ctxFirma = elementos.firmaCanvas.getContext("2d");
-
-    // Ajustar tamaño canvas al contenedor
-    elementos.firmaCanvas.width = elementos.firmaCanvas.offsetWidth;
-    elementos.firmaCanvas.height = 200;
-
+    const canvas = document.getElementById('firmaColaborador');
+    if (!canvas) {
+        console.error('Canvas de firma no encontrado');
+        return;
+    }
+    
+    ctxFirma = canvas.getContext("2d");
+    
+    // Ajustar tamaño canvas
+    canvas.width = canvas.offsetWidth;
+    canvas.height = 200;
+    
+    // Estilo de línea
+    ctxFirma.strokeStyle = "#000";
+    ctxFirma.lineWidth = 2;
+    ctxFirma.lineCap = "round";
+    
     // Eventos mouse
-    elementos.firmaCanvas.addEventListener("mousedown", empezarDibujo);
-    elementos.firmaCanvas.addEventListener("mouseup", terminarDibujo);
-    elementos.firmaCanvas.addEventListener("mousemove", dibujar);
-
+    canvas.addEventListener("mousedown", empezarDibujo);
+    canvas.addEventListener("mouseup", terminarDibujo);
+    canvas.addEventListener("mousemove", dibujar);
+    canvas.addEventListener("mouseout", terminarDibujo);
+    
     // Eventos touch (móvil)
-    elementos.firmaCanvas.addEventListener("touchstart", empezarDibujo);
-    elementos.firmaCanvas.addEventListener("touchend", terminarDibujo);
-    elementos.firmaCanvas.addEventListener("touchmove", dibujar);
+    canvas.addEventListener("touchstart", empezarDibujo, {passive: false});
+    canvas.addEventListener("touchend", terminarDibujo);
+    canvas.addEventListener("touchmove", dibujar, {passive: false});
 
-    // Botón limpiar
-    elementos.limpiarFirmaBtn.addEventListener("click", limpiarFirma);
 }
-
 function empezarDibujo(e){
     e.preventDefault();
     dibujando = true;
+    const canvas = document.getElementById('firmaColaborador');
+    const rect = canvas.getBoundingClientRect();
+    const x = e.type.includes("touch") ? e.touches[0].clientX - rect.left : e.clientX - rect.left;
+    const y = e.type.includes("touch") ? e.touches[0].clientY - rect.top : e.clientY - rect.top;
+    
     ctxFirma.beginPath();
-    ctxFirma.moveTo(obtenerX(e), obtenerY(e));
+    ctxFirma.moveTo(x, y);
 }
 
 function terminarDibujo(e){
@@ -163,22 +177,23 @@ function terminarDibujo(e){
 function dibujar(e){
     if (!dibujando) return;
     e.preventDefault();
-    ctxFirma.lineTo(obtenerX(e), obtenerY(e));
+    
+    const canvas = document.getElementById('firmaColaborador');
+    const rect = canvas.getBoundingClientRect();
+    const x = e.type.includes("touch") ? e.touches[0].clientX - rect.left : e.clientX - rect.left;
+    const y = e.type.includes("touch") ? e.touches[0].clientY - rect.top : e.clientY - rect.top;
+    
+    ctxFirma.lineTo(x, y);
     ctxFirma.stroke();
 }
 
-function obtenerX(e){
-    return e.type.includes("touch") ? 
-        e.touches[0].clientX - elementos.firmaCanvas.getBoundingClientRect().left :
-        e.offsetX;
-}
-
-function obtenerY(e){
-    return e.type.includes("touch") ? 
-        e.touches[0].clientY - elementos.firmaCanvas.getBoundingClientRect().top :
-        e.offsetY;
-}
-
 function limpiarFirma(){
-    ctxFirma.clearRect(0, 0, elementos.firmaCanvas.width, elementos.firmaCanvas.height);
+    const canvas = document.getElementById('firmaColaborador');
+    ctxFirma.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// Función para obtener la firma como base64
+function obtenerFirmaBase64() {
+    const canvas = document.getElementById('firmaColaborador');
+    return canvas.toDataURL();
 }

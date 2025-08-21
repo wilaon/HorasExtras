@@ -109,7 +109,7 @@ async function procesarFormulario(e) {
         horaEntrada: elementos.horaEntrada.value,
         horaSalida: elementos.horaSalida.value,
         turno: elementos.turno.value,
-        turnoIngeniero:elementos.value,
+        turnoIngeniero:elementos.turnoIngeniero.value,
         observaciones: elementos.observaciones.value,
         firmaColab:elementos.firmaColab.toDataURL(),
         firmaIng:elementos.firmaIng.toDataURL()
