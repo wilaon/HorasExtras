@@ -9,6 +9,7 @@ const elementos = {
     horaEntrada: document.getElementById('horaEntrada'),
     horaSalida: document.getElementById('horaSalida'),
     turno: document.getElementById('turno'),
+    turnoIngeniero: document.getElementById('turnoIngeniero'),
     observaciones: document.getElementById('observaciones'),
     submitBtn: document.getElementById('submitBtn'),
     dniValidation: document.getElementById('dniValidation'),
@@ -20,7 +21,16 @@ const elementos = {
     loading: document.getElementById('loading'),
     successMessage: document.getElementById('successMessage'),
     errorMessage: document.getElementById('errorMessage'),
-    clock: document.getElementById('clock')
+    clock: document.getElementById('clock'),
+    firmaColab: document.getElementById('firmaColab'),
+    firmaIng: document.getElementById('firmaIng'),
+    veinticincoNocturno: document.getElementById('veinticincoNocturno'),
+    veinticinco5am7pm: document.getElementById('veinticinco5am7pm'),
+    cincuenta7pm5am: document.getElementById('cincuenta7pm5am'),
+    prolongacionNoct75: document.getElementById('prolongacionNoct75'),
+    feriadosDomingos100: document.getElementById('feriadosDomingos100'),
+    limpiarFirmaBtn:document.getElementById('limpiarFirma')
+
 };
 
 // Actualizar reloj
@@ -94,7 +104,10 @@ async function procesarFormulario(e) {
         horaEntrada: elementos.horaEntrada.value,
         horaSalida: elementos.horaSalida.value,
         turno: elementos.turno.value,
-        observaciones: elementos.observaciones.value
+        turnoIngeniero:elementos.value,
+        observaciones: elementos.observaciones.value,
+        firmaColab:elementos.firmaColab.toDataURL(),
+        firmaIng:elementos.firmaIng.toDataURL()
     };
     
     // Guardar
@@ -152,6 +165,12 @@ async function inicializar() {
     
     // Configurar eventos
     inicializarEventos();
+
+    //Llenar select IngTurno
+    const turnoIngenieros = obtenerIngTurno();
+    llenarSelect(elementos.turnoIngeniero,turnoIngenieros);
+
+    inicializarFirma();
     
     console.log('Sistema iniciado');
 }

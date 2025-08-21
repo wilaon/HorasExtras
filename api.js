@@ -64,7 +64,9 @@ async function guardarAsistencia(datos) {
             calculo ? calculo.horasExtra50.toFixed(2) : '0',
             calculo ? calculo.horasExtra100.toFixed(2) : '0',
             datos.turno,
-            datos.observaciones || ''
+            datos.turnoIngeniero,
+            datos.observaciones || '',
+            datos.firmaColab || ''
         ];
         
         await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
