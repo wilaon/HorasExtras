@@ -51,6 +51,13 @@ async function guardarAsistencia(datos) {
         // Calcular horas
         const calculo = calcularHoras(datos.horaEntrada, datos.horaSalida);
         
+        // Validar y comprimir firma si es muy grande
+        let firmaComprimida = '';
+        if (datos.firmaColab && datos.firmaColab.length > 0) {
+            // Si la firma es muy larga, podrías comprimirla o guardar solo una referencia
+            firmaComprimida = datos.firmaColab.length > 10000 ? 'FIRMA_PRESENTE' : datos.firmaColab;
+        }
+        
         // Preparar fila
         const fila = [
             new Date().toISOString(),
@@ -66,7 +73,7 @@ async function guardarAsistencia(datos) {
             datos.turno,
             datos.turnoIngeniero,
             datos.observaciones || '',
-            datos.firmaColab || '',
+            firmaComprimida,
             calculo ? calculo.veinticincoNocturno : '0',
             calculo ? calculo.veinticinco5am7pm : '0',
             calculo ? calculo.cincuenta7pm5am : '0',
@@ -74,6 +81,8 @@ async function guardarAsistencia(datos) {
             calculo ? calculo.feriadosDomingos100 : '0'
             
         ];
+
+        console.log('Enviando fila:', fila);
         
         await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
             method: 'POST',
@@ -87,6 +96,7 @@ async function guardarAsistencia(datos) {
             })
         });
         
+        console.log('Asistencia guardada exitosamente');
         return { success: true };
     } catch (error) {
         console.error('Error:', error);
