@@ -104,7 +104,7 @@ function obtenerTurnos(){
 // Llenar select
 function llenarSelect(selectElement, opciones){
 
-    selectElement.innerHTML = '';
+    
 
     opciones.forEach(opcion => {
         const option = document.createElement('option');

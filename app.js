@@ -172,8 +172,8 @@ async function inicializar() {
     inicializarEventos();
 
     //Llenar select IngTurno
-    const turnoIngenieros = obtenerIngTurno();
-    llenarSelect(elementos.turnoIngeniero,turnoIngenieros);
+    const turnoIngenieross = obtenerIngTurno();
+    llenarSelect(elementos.turnoIngeniero,turnoIngenieross);
 
     inicializarFirma();
     
