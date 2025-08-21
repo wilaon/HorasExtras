@@ -60,13 +60,19 @@ async function guardarAsistencia(datos) {
             datos.horaEntrada || '-',
             datos.horaSalida || '-',
             calculo ? calculo.formatoTotal : '-',
-            calculo ? calculo.horasNormales.toFixed(2) : '0',
-            calculo ? calculo.horasExtra50.toFixed(2) : '0',
-            calculo ? calculo.horasExtra100.toFixed(2) : '0',
+            calculo ? calculo.horasNormales : '0',
+            calculo ? calculo.horasExtra50 : '0',
+            calculo ? calculo.horasExtra100 : '0',
             datos.turno,
             datos.turnoIngeniero,
             datos.observaciones || '',
-            datos.firmaColab || ''
+            datos.firmaColab || '',
+            calculo ? calculo.veinticincoNocturno : '0',
+            calculo ? calculo.veinticinco5am7pm : '0',
+            calculo ? calculo.cincuenta7pm5am : '0',
+            calculo ? calculo.prolongacionNoct75 : '0',
+            calculo ? calculo.feriadosDomingos100 : '0'
+            
         ];
         
         await fetch(CONFIG.GOOGLE_SCRIPT_URL, {

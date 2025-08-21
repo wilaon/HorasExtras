@@ -43,10 +43,15 @@ function actualizarCalculoHoras() {
     const calculo = calcularHoras(elementos.horaEntrada.value, elementos.horaSalida.value);
     
     if (calculo) {
-        elementos.horasNormales.textContent = calculo.formatoNormales;
-        elementos.horasExtra50.textContent = calculo.formatoExtra50;
-        elementos.horasExtra100.textContent = calculo.formatoExtra100;
-        elementos.totalHoras.textContent = calculo.formatoTotal;
+        elementos.horasNormales.textContent = calculo.horasNormales;
+        elementos.horasExtra50.textContent = calculo.horasExtra50;
+        elementos.horasExtra100.textContent = calculo.horasExtra100;
+        elementos.totalHoras.textContent = calculo.totalHoras;
+        elementos.veinticincoNocturno.textContent = calculo.veinticincoNocturno;
+        elementos.veinticinco5am7pm.textContent = calculo.veinticinco5am7pm;
+        elementos.cincuenta7pm5am.textContent = calculo.cincuenta7pm5am;
+        elementos.prolongacionNoct75.textContent = calculo.prolongacionNoct75;
+        elementos.feriadosDomingos100.textContent = calculo.feriadosDomingos100;
         mostrarElemento(elementos.hoursInfo, true);
     } else {
         mostrarElemento(elementos.hoursInfo, false);

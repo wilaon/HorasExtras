@@ -20,48 +20,46 @@ function formatearTiempo(minutos) {
 // Calcular horas trabajadas
 function calcularHoras(entrada, salida) {
     if (!entrada || !salida) return null;
-    
-    const [entradaH, entradaM] = entrada.split(':').map(Number);
-    const [salidaH, salidaM] = salida.split(':').map(Number);
-    
-    let entradaMinutos = entradaH * 60 + entradaM;
-    let salidaMinutos = salidaH * 60 + salidaM;
-    
-    // Si salida es menor, asumir día siguiente
-    if (salidaMinutos <= entradaMinutos) {
-        salidaMinutos += 24 * 60;
-    }
-    
-    const totalMinutos = salidaMinutos - entradaMinutos;
-    const totalHoras = totalMinutos / 60;
-    
-    // Distribución de horas
-    let horasNormales = 0;
-    let horasExtra50 = 0;
-    let horasExtra100 = 0;
-    
-    if (totalHoras <= CONFIG.HORAS_NORMALES_DIA) {
-        horasNormales = totalHoras;
-    } else if (totalHoras <= CONFIG.HORAS_EXTRA_50_LIMITE) {
-        horasNormales = CONFIG.HORAS_NORMALES_DIA;
-        horasExtra50 = totalHoras - CONFIG.HORAS_NORMALES_DIA;
-    } else {
-        horasNormales = CONFIG.HORAS_NORMALES_DIA;
-        horasExtra50 = CONFIG.HORAS_EXTRA_50_LIMITE - CONFIG.HORAS_NORMALES_DIA;
-        horasExtra100 = totalHoras - CONFIG.HORAS_EXTRA_50_LIMITE;
-    }
-    
-    return {
-        totalMinutos,
-        totalHoras,
-        horasNormales,
-        horasExtra50,
-        horasExtra100,
-        formatoTotal: formatearTiempo(totalMinutos),
-        formatoNormales: formatearTiempo(horasNormales * 60),
-        formatoExtra50: formatearTiempo(horasExtra50 * 60),
-        formatoExtra100: formatearTiempo(horasExtra100 * 60)
+
+    const parseHora = h => {
+        const [HH, MM] = h.split(':').map(Number);
+        return (isNaN(HH) || isNaN(MM)) ? null : HH * 60 + MM;
     };
+
+    let entradaMin = parseHora(entrada);
+    let salidaMin  = parseHora(salida);
+    if (entradaMin === null || salidaMin === null) return null;
+
+    // Si la salida es menor o igual que la entrada → asumimos que es al día siguiente
+    if (salidaMin <= entradaMin) salidaMin += 24 * 60;
+
+    const totalMin = salidaMin - entradaMin;
+    const totalHoras = totalMin / 60;
+
+    const HORAS_NORMALES = CONFIG.HORAS_NORMALES_DIA;
+    const HORAS_EXTRA_50 = CONFIG.HORAS_EXTRA_50_LIMITE;
+
+    // Distribución con fórmulas directas
+    let horasNormales = Math.min(totalHoras, HORAS_NORMALES);
+    let horasExtra50  = Math.max(0, Math.min(totalHoras, HORAS_EXTRA_50) - HORAS_NORMALES);
+    let horasExtra100 = Math.max(0, totalHoras - HORAS_EXTRA_50);
+    let veinticincoNocturno = 0;
+    let veinticinco5am7pm = 0;
+    let cincuenta7pm5am = 0;
+    let prolongacionNoct75 = 0;
+    let feriadosDomingos100 = 0;
+
+    return {
+        totalHoras: totalHoras.toFixed(2),
+        horasNormales: horasNormales.toFixed(2),
+        horasExtra50: horasExtra50.toFixed(2),
+        horasExtra100: horasExtra100.toFixed(2),
+        veinticincoNocturno : veinticincoNocturno.toFixed(2),
+        veinticinco5am7pm : veinticinco5am7pm.toFixed(2),
+        cincuenta7pm5am : cincuenta7pm5am.toFixed(2),
+        prolongacionNoct75 : prolongacionNoct75.toFixed(2),
+        feriadosDomingos100 : feriadosDomingos100.toFixed(2),
+        };
 }
 
 // Mostrar/ocultar elemento
