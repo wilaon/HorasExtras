@@ -128,7 +128,7 @@ function obtenerIngTurno(){
 let ctxFirma, dibujando = false;
 
 function inicializarFirma(){
-    const canvas = document.getElementById('firmaColaborador');
+    const canvas = document.getElementById('firmaColab');
     if (!canvas) {
         console.error('Canvas de firma no encontrado');
         return;
