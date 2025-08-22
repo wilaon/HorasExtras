@@ -219,25 +219,6 @@ function obtenerFirmaBase64(firmaColab) {
         return '';
     }
 
-    // Manera eficiente de verificar si el canvas está vacío
-    //const blankCanvas = document.createElement('canvas');
-    //blankCanvas.width = canvas.width;
-    //blankCanvas.height = canvas.height;
-
-    //PINTAR EL CANVAS TEMPORAL DE BLANCO
-    //const blankCtx = blankCanvas.getContext('2d');
-    //blankCtx.fillStyle = 'white';
-    //blankCtx.fillRect(0, 0, blankCanvas.width, blankCanvas.height);
-    
-    // Si el canvas está vacío, devuelve un string vacío
-    //if (canvas.toDataURL() === blankCanvas.toDataURL()) {
-    //    return '';
-    //}
-    
-    // Si hay contenido, devuelve la firma en formato Base64
-    //return canvas.toDataURL('image/jpeg', 0.8);
-
-
      // VERIFICACIÓN ADICIONAL: Contar píxeles no blancos
     const imageData = ctxFirma.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
