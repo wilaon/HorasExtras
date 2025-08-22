@@ -126,7 +126,9 @@ function obtenerIngTurno(){
 }
 
 
-let ctxFirma, dibujando = false;
+let ctxFirma = null;
+let dibujando = false;
+let canvas = null;
 
 function inicializarFirma(){
     const canvas = document.getElementById('firmaColab');
@@ -195,6 +197,30 @@ function limpiarFirma(){
 
 // Función para obtener la firma como base64
 function obtenerFirmaBase64() {
-    const canvas = document.getElementById('firmaColab');
-    return canvas.toDataURL();
+    //const canvas = document.getElementById('firmaColab');
+    //return canvas.toDataURL();
+
+    if (canvas){
+
+        //verificar si tiene contenido el canvas firma
+        const imagenfirma = ctxFirma.getImagenData(0, 0, canvas.width, canvas.height);
+        const data = imagenfirma;
+
+        //verifica si esta vacio(todos los pix son blancos)
+        let isEmpty = true;
+        for (let i = 0; i < data.length; i += 4) {
+            if (data[i] !== 0 || data[i + 1] !== 0 || data[i + 2] !== 0 || data[i + 3] !== 0) {
+                isEmpty = false;
+                break;
+            }
+
+    }
+    if (isEmpty) {
+            return ''; // No enviar nada si está vacío
+        }
+        
+        // Reducir calidad para comprimir
+        return canvas.toDataURL('image/jpeg', 0.5); // 50% de calidad
+    }
+    return '';
 }
