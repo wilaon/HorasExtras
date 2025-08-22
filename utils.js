@@ -189,12 +189,12 @@ function dibujar(e){
 }
 
 function limpiarFirma(){
-    const canvas = document.getElementById('firmaColaborador');
+    const canvas = document.getElementById('firmaColab');
     ctxFirma.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 // Función para obtener la firma como base64
 function obtenerFirmaBase64() {
-    const canvas = document.getElementById('firmaColaborador');
+    const canvas = document.getElementById('firmaColab');
     return canvas.toDataURL();
 }

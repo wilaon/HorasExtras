@@ -111,8 +111,8 @@ async function procesarFormulario(e) {
         turno: elementos.turno.value,
         turnoIngeniero:elementos.turnoIngeniero.value,
         observaciones: elementos.observaciones.value,
-        firmaColab:elementos.firmaColab.toDataURL(),
-        firmaIng:elementos.firmaIng.toDataURL()
+        firmaColab:obtenerFirmaBase64,
+        firmaIng:obtenerFirmaBase64
     };
     
     // Guardar
