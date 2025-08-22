@@ -196,7 +196,7 @@ function limpiarFirma(){
 }
 
 // Función para obtener la firma como base64
-function obtenerFirmaBase64() {
+function obtenerFirmaBase64(canvas) {
 
     if (canvas){
 
