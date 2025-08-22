@@ -196,29 +196,24 @@ function limpiarFirma(){
 }
 
 // Función para obtener la firma como base64
-function obtenerFirmaBase64(canvas) {
+function obtenerFirmaBase64(firmaColab) {
 
-    if (canvas){
-
-        //verificar si tiene contenido el canvas firma
-        const imagenfirma = ctxFirma.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imagenfirma;
-
-        //verifica si esta vacio(todos los pix son blancos)
-        let isEmpty = true;
-        for (let i = 0; i < data.length; i += 4) {
-            if (data[i] !== 0 || data[i + 1] !== 0 || data[i + 2] !== 0 || data[i + 3] !== 0) {
-                isEmpty = false;
-                break;
-            }
-
+    const canvas = document.getElementById(firmaColab);
+    if (!canvas) {
+        console.error(`Canvas con ID "${firmaColab}" no encontrado.`);
+        return ''; // Devuelve un string vacío si no encuentra el canvas
     }
-    if (isEmpty) {
-            return ''; // No enviar nada si está vacío
-        }
-        
-        // Reducir calidad para comprimir
-        return canvas.toDataURL('image/jpeg', 0.5); // 50% de calidad
+
+    // Manera eficiente de verificar si el canvas está vacío
+    const blankCanvas = document.createElement('canvas');
+    blankCanvas.width = canvas.width;
+    blankCanvas.height = canvas.height;
+    
+    // Si el canvas está vacío, devuelve un string vacío
+    if (canvas.toDataURL() === blankCanvas.toDataURL()) {
+        return '';
     }
-    return '';
+    
+    // Si hay contenido, devuelve la firma en formato Base64
+    return canvas.toDataURL('image/jpeg', 0.5);
 }
