@@ -104,6 +104,7 @@ function obtenerTurnos(){
 // Llenar select
 function llenarSelect(selectElement, opciones){
 
+    if (!selectElement) return;
     selectElement.innerHTML = '';
 
     opciones.forEach(opcion => {
@@ -160,7 +161,7 @@ function inicializarFirma(){
 function empezarDibujo(e){
     e.preventDefault();
     dibujando = true;
-    const canvas = document.getElementById('firmaColaborador');
+    const canvas = document.getElementById('firmaColab');
     const rect = canvas.getBoundingClientRect();
     const x = e.type.includes("touch") ? e.touches[0].clientX - rect.left : e.clientX - rect.left;
     const y = e.type.includes("touch") ? e.touches[0].clientY - rect.top : e.clientY - rect.top;
@@ -178,7 +179,7 @@ function dibujar(e){
     if (!dibujando) return;
     e.preventDefault();
     
-    const canvas = document.getElementById('firmaColaborador');
+    const canvas = document.getElementById('firmaColab');
     const rect = canvas.getBoundingClientRect();
     const x = e.type.includes("touch") ? e.touches[0].clientX - rect.left : e.clientX - rect.left;
     const y = e.type.includes("touch") ? e.touches[0].clientY - rect.top : e.clientY - rect.top;
