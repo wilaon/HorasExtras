@@ -139,25 +139,26 @@ function inicializarFirma(){
     
     ctxFirma = canvas.getContext("2d");
     
-    // Ajustar tamaño canvas
     canvas.width = canvas.offsetWidth;
     canvas.height = 200;
+
+    // --- AÑADIDO: Asegurar que el fondo inicial sea blanco ---
+    ctxFirma.fillStyle = 'white';
+    ctxFirma.fillRect(0, 0, canvas.width, canvas.height);
+    // --- FIN AÑADIDO ---
     
-    // Estilo de línea
     ctxFirma.strokeStyle = "#000";
     ctxFirma.lineWidth = 2;
     ctxFirma.lineCap = "round";
     
-    // Eventos mouse
+    // Eventos (se mantienen igual)
     canvas.addEventListener("mousedown", empezarDibujo);
     canvas.addEventListener("mouseup", terminarDibujo);
     canvas.addEventListener("mousemove", dibujar);
     canvas.addEventListener("mouseout", terminarDibujo);
-    
-    // Eventos touch (móvil)
-    canvas.addEventListener("touchstart", empezarDibujo, {passive: false});
+    canvas.addEventListener("touchstart", empezarDibujo, { passive: false });
     canvas.addEventListener("touchend", terminarDibujo);
-    canvas.addEventListener("touchmove", dibujar, {passive: false});
+    canvas.addEventListener("touchmove", dibujar, { passive: false });
 
 }
 function empezarDibujo(e){
@@ -192,7 +193,10 @@ function dibujar(e){
 
 function limpiarFirma(){
     const canvas = document.getElementById('firmaColab');
-    ctxFirma.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Pintar de blanco todo el CANVAS
+    ctxFirma.fillStyle = 'white';
+    ctxFirma.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 // Función para obtener la firma como base64
