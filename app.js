@@ -129,6 +129,7 @@ async function procesarFormulario(e) {
         elementos.dniValidation.classList.remove('show');
         // 3. Habilitar campo nombre
         elementos.nombre.readOnly = false;
+        limpiarFirma();
         mostrarElemento(elementos.hoursInfo, false);
     } else {
         mostrarMensaje(elementos.errorMessage, 'Error al registrar asistencia');
