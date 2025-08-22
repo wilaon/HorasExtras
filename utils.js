@@ -214,7 +214,7 @@ function obtenerFirmaBase64(firmaColab) {
 
 
     // VERIFICACIÓN SIMPLE: Si no hay trazos, devolver vacío
-    if (!hayTrazosFirma) {
+    if (!trazoFirma) {
         console.log('No hay firma dibujada');
         return '';
     }
