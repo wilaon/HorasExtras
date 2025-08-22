@@ -129,6 +129,7 @@ function obtenerIngTurno(){
 let ctxFirma = null;
 let dibujando = false;
 let canvas = null;
+let trazoFirma = false;
 
 function inicializarFirma(){
     const canvas = document.getElementById('firmaColab');
@@ -145,11 +146,12 @@ function inicializarFirma(){
     // --- AÑADIDO: Asegurar que el fondo inicial sea blanco ---
     ctxFirma.fillStyle = 'white';
     ctxFirma.fillRect(0, 0, canvas.width, canvas.height);
-    // --- FIN AÑADIDO ---
     
     ctxFirma.strokeStyle = "#000";
     ctxFirma.lineWidth = 2;
     ctxFirma.lineCap = "round";
+
+    trazoFirma = false;
     
     // Eventos (se mantienen igual)
     canvas.addEventListener("mousedown", empezarDibujo);
@@ -182,6 +184,8 @@ function dibujar(e){
     if (!dibujando) return;
     e.preventDefault();
     
+    trazoFirma= true;
+
     const canvas = document.getElementById('firmaColab');
     const rect = canvas.getBoundingClientRect();
     const x = e.type.includes("touch") ? e.touches[0].clientX - rect.left : e.clientX - rect.left;
@@ -208,6 +212,13 @@ function obtenerFirmaBase64(firmaColab) {
         return ''; // Devuelve un string vacío si no encuentra el canvas
     }
 
+
+    // VERIFICACIÓN SIMPLE: Si no hay trazos, devolver vacío
+    if (!hayTrazosFirma) {
+        console.log('No hay firma dibujada');
+        return '';
+    }
+
     // Manera eficiente de verificar si el canvas está vacío
     const blankCanvas = document.createElement('canvas');
     blankCanvas.width = canvas.width;
@@ -224,5 +235,5 @@ function obtenerFirmaBase64(firmaColab) {
     }
     
     // Si hay contenido, devuelve la firma en formato Base64
-    return canvas.toDataURL('image/jpeg', 0.5);
+    return canvas.toDataURL('image/jpeg', 0.8);
 }
