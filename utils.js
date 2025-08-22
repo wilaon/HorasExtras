@@ -203,7 +203,7 @@ function obtenerFirmaBase64() {
     if (canvas){
 
         //verificar si tiene contenido el canvas firma
-        const imagenfirma = ctxFirma.getImagenData(0, 0, canvas.width, canvas.height);
+        const imagenfirma = ctxFirma.getImageData(0, 0, canvas.width, canvas.height);
         const data = imagenfirma;
 
         //verifica si esta vacio(todos los pix son blancos)
