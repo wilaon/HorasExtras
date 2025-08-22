@@ -208,6 +208,11 @@ function obtenerFirmaBase64(firmaColab) {
     const blankCanvas = document.createElement('canvas');
     blankCanvas.width = canvas.width;
     blankCanvas.height = canvas.height;
+
+    //PINTAR EL CANVAS TEMPORAL DE BLANCO
+    const blankCtx = blankCanvas.getContext('2d');
+    blankCtx.fillStyle = 'white';
+    blankCtx.fillRect(0, 0, blankCanvas.width, blankCanvas.height);
     
     // Si el canvas está vacío, devuelve un string vacío
     if (canvas.toDataURL() === blankCanvas.toDataURL()) {
