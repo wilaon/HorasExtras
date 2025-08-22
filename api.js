@@ -51,12 +51,6 @@ async function guardarAsistencia(datos) {
         // Calcular horas
         const calculo = calcularHoras(datos.horaEntrada, datos.horaSalida);
         
-        // Validar y comprimir firma si es muy grande
-        let firmaComprimida = '';
-        if (datos.firmaColab && datos.firmaColab.length > 0) {
-            // Si la firma es muy larga, podrías comprimirla o guardar solo una referencia
-            firmaComprimida = datos.firmaColab.length > 10000 ? 'FIRMA_PRESENTE' : datos.firmaColab;
-        }
         
         // Preparar fila
         const fila = [
@@ -66,14 +60,15 @@ async function guardarAsistencia(datos) {
             datos.nombre,
             datos.horaEntrada || '-',
             datos.horaSalida || '-',
-            calculo ? calculo.formatoTotal : '-',
+            calculo ? calculo.totalHoras : '-',
             calculo ? calculo.horasNormales : '0',
             calculo ? calculo.horasExtra50 : '0',
             calculo ? calculo.horasExtra100 : '0',
             datos.turno,
             datos.turnoIngeniero,
             datos.observaciones || '',
-            firmaComprimida,
+            datos.firmaColab || '',
+            datos.firmaIng || '',
             calculo ? calculo.veinticincoNocturno : '0',
             calculo ? calculo.veinticinco5am7pm : '0',
             calculo ? calculo.cincuenta7pm5am : '0',
