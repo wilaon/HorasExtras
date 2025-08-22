@@ -197,8 +197,6 @@ function limpiarFirma(){
 
 // Función para obtener la firma como base64
 function obtenerFirmaBase64() {
-    const canvas = document.getElementById('firmaColab');
-    //return canvas.toDataURL();
 
     if (canvas){
 
