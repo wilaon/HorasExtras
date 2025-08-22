@@ -51,6 +51,16 @@ async function guardarAsistencia(datos) {
         // Calcular horas
         const calculo = calcularHoras(datos.horaEntrada, datos.horaSalida);
         
+        let firmaParaGuardar = '';
+        if (datos.firmaColab && datos.firmaColab.length > 0) {
+            // Si la firma es muy larga, marcar que existe pero no guardar el contenido completo
+            if (datos.firmaColab.length > 5000) {
+                console.log('Firma muy grande, guardando indicador');
+                firmaParaGuardar = 'FIRMA_REGISTRADA_' + new Date().getTime();
+            } else {
+                firmaParaGuardar = datos.firmaColab;
+            }
+        }
         
         // Preparar fila
         const fila = [
@@ -67,8 +77,8 @@ async function guardarAsistencia(datos) {
             datos.turno,
             datos.turnoIngeniero,
             datos.observaciones || '',
-            datos.firmaColab || '',
-            datos.firmaIng || '',
+            firmaParaGuardar, //datos.firmaColab || '',
+            //datos.firmaIng || '',
             calculo ? calculo.veinticincoNocturno : '0',
             calculo ? calculo.veinticinco5am7pm : '0',
             calculo ? calculo.cincuenta7pm5am : '0',
