@@ -220,20 +220,52 @@ function obtenerFirmaBase64(firmaColab) {
     }
 
     // Manera eficiente de verificar si el canvas está vacío
-    const blankCanvas = document.createElement('canvas');
-    blankCanvas.width = canvas.width;
-    blankCanvas.height = canvas.height;
+    //const blankCanvas = document.createElement('canvas');
+    //blankCanvas.width = canvas.width;
+    //blankCanvas.height = canvas.height;
 
     //PINTAR EL CANVAS TEMPORAL DE BLANCO
-    const blankCtx = blankCanvas.getContext('2d');
-    blankCtx.fillStyle = 'white';
-    blankCtx.fillRect(0, 0, blankCanvas.width, blankCanvas.height);
+    //const blankCtx = blankCanvas.getContext('2d');
+    //blankCtx.fillStyle = 'white';
+    //blankCtx.fillRect(0, 0, blankCanvas.width, blankCanvas.height);
     
     // Si el canvas está vacío, devuelve un string vacío
-    if (canvas.toDataURL() === blankCanvas.toDataURL()) {
+    //if (canvas.toDataURL() === blankCanvas.toDataURL()) {
+    //    return '';
+    //}
+    
+    // Si hay contenido, devuelve la firma en formato Base64
+    //return canvas.toDataURL('image/jpeg', 0.8);
+
+
+     // VERIFICACIÓN ADICIONAL: Contar píxeles no blancos
+    const imageData = ctxFirma.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    let pixelesNoVacios = 0;
+    
+    // Revisar cada 4 píxeles (RGBA) para ver si no es blanco
+    for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];     // Red
+        const g = data[i + 1]; // Green
+        const b = data[i + 2]; // Blue
+        const a = data[i + 3]; // Alpha
+        
+        // Si no es blanco (255,255,255) o transparente
+        if (!(r === 255 && g === 255 && b === 255) && a > 0) {
+            pixelesNoVacios++;
+        }
+    }
+    
+    // Si hay menos de 10 píxeles dibujados, considerar vacío
+    if (pixelesNoVacios < 10) {
+        console.log('Firma demasiado pequeña o vacía');
         return '';
     }
     
-    // Si hay contenido, devuelve la firma en formato Base64
-    return canvas.toDataURL('image/jpeg', 0.8);
+    // GENERAR BASE64 ÚNICO agregando timestamp
+    const timestamp = Date.now();
+    const firmaBase64 = canvas.toDataURL('image/jpeg', 0.8);
+    
+    console.log(`Firma generada: ${pixelesNoVacios} píxeles, timestamp: ${timestamp}`);
+    return firmaBase64;
 }
