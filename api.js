@@ -77,7 +77,7 @@ async function guardarAsistencia(datos) {
             datos.turno,
             datos.turnoIngeniero,
             datos.observaciones || '',
-            firmaParaGuardar, //datos.firmaColab || '',
+            datos.firmaParaGuardar,
             datos.firmaIng || '',
             calculo ? calculo.veinticincoNocturno : '0',
             calculo ? calculo.veinticinco5am7pm : '0',
